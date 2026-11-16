@@ -7,17 +7,16 @@ $id     = $_GET['id'] ?? null;
 $pdo    = getConnection();
 
 if ($id) {
-    //$stmt   = $pdo->prepare("SELECT * FROM poli WHERE id = ?");
-    $stmt   = $pdo->prepare("SELECT * FROM poli WHERE nama_poli LIKE ?");
+    $stmt   = $pdo->prepare("SELECT * FROM pendaftaran WHERE id = ?");
     $stmt->execute([$id]);
     $data   = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$data) {
-        sendResponse('error', 'Data poli tidak ditemukan', null, 404);
+        sendResponse('error', 'Data pendaftaran tidak ditemukan', null, 404);
     }
-    sendResponse('success', 'Data poli ditemukan', $data);
+    sendResponse('success', 'Data pendaftaran ditemukan', $data);
 } else {
-    $stmt   = $pdo->query("SELECT * FROM poli ORDER BY id ASC");
+    $stmt   = $pdo->query("SELECT * FROM pendaftaran ORDER BY id ASC");
     $data   = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    sendResponse('success', 'Daftar poli berhasil diambil', $data);
+    sendResponse('success', 'Daftar pendaftaran berhasil diambil', $data);
 }
