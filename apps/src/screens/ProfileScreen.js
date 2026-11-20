@@ -1,13 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import { confirmDialog } from '../utils/dialog';
+import { confirmDestructive } from '../utils/dialog';
 
 export default function ProfileScreen() {
   const { user, logout } = useAuth();
 
   const handleLogout = () =>
-    confirmDialog('Keluar', 'Yakin ingin keluar dari aplikasi?', () => logout());
+    confirmDestructive({
+      title: 'Keluar',
+      message: 'Yakin ingin keluar dari aplikasi?',
+      confirmText: 'Keluar',
+      cancelText: 'Batal',
+      onConfirm: () => logout(),
+    });
 
   return (
     <View style={s.container}>
@@ -17,6 +23,7 @@ export default function ProfileScreen() {
         <Text style={s.label}>Peran</Text>
         <Text style={s.value}>{user?.role}</Text>
       </View>
+
       <TouchableOpacity style={s.btn} onPress={handleLogout}>
         <Text style={s.btnText}>Keluar</Text>
       </TouchableOpacity>
